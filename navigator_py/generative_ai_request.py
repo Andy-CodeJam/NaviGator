@@ -103,7 +103,7 @@ class OpenAIRequest:
         return self._chat_history
 
     def connect(self):
-        self._ai_provider.client.connect()
+        self.ai_provider.client.connect()
 
     def _prompt_action(self, client: openai.Client, prompt: str):
         return client.chat.completions.create(
@@ -124,9 +124,9 @@ class OpenAIRequest:
         temperature: float = config.temperature,
     ):
         """Generate a response to the prompt using the Azure OpenAI API."""
-        max_tokens = self._max_tokens if max_tokens is None else max_tokens
-        temperature = self._temperature if temperature is None else temperature
-        client = self._ai_provider._client
+        max_tokens = self.max_tokens if max_tokens is None else max_tokens
+        temperature = self.temperature if temperature is None else temperature
+        client = self.ai_provider.client
 
         try:
             response = self._prompt_action(client, prompt)

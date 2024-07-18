@@ -1,5 +1,6 @@
 .env
 .env.local
+cic-chat-component
 .venv/
 data/
 node_modules/

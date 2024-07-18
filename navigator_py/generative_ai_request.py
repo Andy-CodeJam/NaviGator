@@ -5,6 +5,7 @@ from typing import Protocol
 import openai
 from dotenv import find_dotenv, load_dotenv
 
+from navigator_py.config import config
 from navigator_py.generative_ai_provider import (
     AzureOpenAIProvider,
     GenerativeAIProvider,
@@ -104,68 +105,93 @@ class OpenAIRequest:
     def connect(self):
         self._ai_provider.client.connect()
 
-    def prompt(
+    def _prompt_action(self, client: openai.Client, prompt: str):
+        return client.chat.completions.create(
+            model=os.getenv("OPENAI_COMPLETIONS_MODEL"),
+            messages=[
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": prompt},
+                {"role": "system", "content": self.post_user_prompt},
+            ],
+        )
+
+        return
+
+    def _prompt(
         self,
         prompt: str,
-        max_tokens: int | None = None,
-        temperature: float | None = None,
+        max_tokens: int = config.max_tokens,
+        temperature: float = config.temperature,
     ):
-        if max_tokens is None:
-            max_tokens = self._max_tokens
-
-        if temperature is None:
-            temperature = self._temperature
-
+        """Generate a response to the prompt using the Azure OpenAI API."""
+        max_tokens = self._max_tokens if max_tokens is None else max_tokens
+        temperature = self._temperature if temperature is None else temperature
         client = self._ai_provider._client
 
         try:
-            response = client.chat.completions.create(
-                model=os.getenv("OPENAI_COMPLETIONS_MODEL"),
-                messages=[
-                    {"role": "system", "content": self.system_prompt},
-                    {"role": "user", "content": prompt},
-                    {"role": "system", "content": self.post_user_prompt},
-                ],
-            )
-
+            response = self._prompt_action(client, prompt)
             return response.choices[0].message
 
+        # Handle different types of errors + Error messages for debugging
         except openai.AuthenticationError as e:
-            # Handle Authentication error here, e.g. invalid API key
-
             print(f"OpenAI API returned an Authentication Error: {e}")
-
         except openai.APIConnectionError as e:
-            # Handle connection error here
-
             print(f"Failed to connect to OpenAI API: {e}")
-
         except openai.BadRequestError as e:
-            # Handle connection error here
-
             print(f"Invalid Request Error: {e}")
-
         except openai.RateLimitError as e:
-            # Handle rate limit error
-
             print(f"OpenAI API request exceeded rate limit: {e}")
-
         except openai.InternalServerError as e:
-            # Handle Service Unavailable error
-
             print(f"Service Unavailable: {e}")
-
         except openai.APITimeoutError as e:
-            # Handle request timeout
-
             print(f"Request timed out: {e}")
-
         except openai.APIError as e:
-            # Handle API error here, e.g. retry or log
-
             print(f"OpenAI API returned an API Error: {e}")
-
         except Exception as e:
-            # Handles all other exceptions
-
             print(f"An exception has occured: {e}")
+
+    async def _aprompt(
+        self,
+        prompt: str,
+        max_tokens: int = config.max_tokens,
+        temperature: float = config.temperature,
+    ):
+        """Same as prompt, but async."""
+        max_tokens = self._max_tokens if max_tokens is None else max_tokens
+        temperature = self._temperature if temperature is None else temperature
+        client = self._ai_provider._client
+
+        try:
+            response = await self._prompt_action(client, prompt)
+            return response.choices[0].message
+
+        # Handle different types of errors + Error messages for debugging
+        except openai.AuthenticationError as e:
+            print(f"OpenAI API returned an Authentication Error: {e}")
+        except openai.APIConnectionError as e:
+            print(f"Failed to connect to OpenAI API: {e}")
+        except openai.BadRequestError as e:
+            print(f"Invalid Request Error: {e}")
+        except openai.RateLimitError as e:
+            print(f"OpenAI API request exceeded rate limit: {e}")
+        except openai.InternalServerError as e:
+            print(f"Service Unavailable: {e}")
+        except openai.APITimeoutError as e:
+            print(f"Request timed out: {e}")
+        except openai.APIError as e:
+            print(f"OpenAI API returned an API Error: {e}")
+        except Exception as e:
+            print(f"An exception has occured: {e}")
+
+    def prompt(self, prompt: str):
+        """
+        Return a response to the given prompt. Wraps the _prompt method to allow subclasses
+        to override it and use validation or other logic.
+        """
+        return self._prompt(prompt)
+
+    async def aprompt(self, prompt: str):
+        """
+        Same as prompt, but async.
+        """
+        return await self._aprompt(prompt)

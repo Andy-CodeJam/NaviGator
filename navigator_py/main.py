@@ -20,11 +20,14 @@ def get_sample_data():
 
 
 def main():
-    # Get the prompt from the
+    # Get the prompt from the command line
     if len(argv) < 2:
         print("Usage: main.py <prompt>")
         exit(1)
     prompt = argv[1]
+
+    # Print verbose messages if the IS_NAVIGATOR_VERBOSE environment variable is
+    # set to some upper/lower case variation of "true"
     verbose = True if os.getenv("IS_NAVIGATOR_VERBOSE").lower() == "true" else False
 
     def print_verbose(message):

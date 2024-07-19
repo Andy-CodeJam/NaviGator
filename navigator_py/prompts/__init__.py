@@ -9,6 +9,9 @@ from navigator_py.prompts.is_asking_about_spira import IsAskingAboutSpira
 from navigator_py.prompts.use_articles_to_generate_answer import (
     UseArticlesToGenerateAnswer,
 )
+from navigator_py.prompts.evaluate_whether_or_not_article_is_useful import (
+    EvaluateWhetherOrNotAnArticleIsLikelyToBeUseful
+)
 
 __all__ = [
     "IsAskingAboutSpira",
@@ -16,4 +19,5 @@ __all__ = [
     "HasSingleMultipleOrNoQuestions",
     "UseArticlesToGenerateAnswer",
     "EvaluateWhetherOrNotQuestionHasBeenAnswered",
+    "EvaluateWhetherOrNotAnArticleIsLikelyToBeUseful",
 ]

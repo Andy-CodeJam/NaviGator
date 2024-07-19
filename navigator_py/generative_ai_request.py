@@ -7,6 +7,7 @@ from dotenv import find_dotenv, load_dotenv
 
 from navigator_py.config import config
 from navigator_py.generative_ai_provider import (
+    AsyncAzureOpenAIProvider,
     AzureOpenAIProvider,
     GenerativeAIProvider,
 )
@@ -115,8 +116,6 @@ class OpenAIRequest:
             ],
         )
 
-        return
-
     def _prompt(
         self,
         prompt: str,
@@ -150,16 +149,39 @@ class OpenAIRequest:
         except Exception as e:
             print(f"An exception has occured: {e}")
 
-    async def _aprompt(
+
+@dataclass
+class AsyncOpenAIRequest(OpenAIRequest):
+    """Represents an asynchronous request to the Azure OpenAI API. Based off the OpenAIRequest class, but overrides the _prompt method to be async."""
+
+    @property
+    def ai_provider(self) -> AsyncAzureOpenAIProvider:
+        if self._ai_provider is None:
+            self._ai_provider = AsyncAzureOpenAIProvider()
+        return self._ai_provider
+
+    async def _prompt_action(self, client: openai.Client, prompt: str):
+        req = await client.chat.completions.create(
+            model=os.getenv("OPENAI_COMPLETIONS_MODEL"),
+            messages=[
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": prompt},
+                {"role": "system", "content": self.post_user_prompt},
+            ],
+        )
+
+        return req
+
+    async def _prompt(
         self,
         prompt: str,
         max_tokens: int = config.max_tokens,
         temperature: float = config.temperature,
     ):
         """Same as prompt, but async."""
-        max_tokens = self._max_tokens if max_tokens is None else max_tokens
-        temperature = self._temperature if temperature is None else temperature
-        client = self._ai_provider._client
+        max_tokens = self.max_tokens if max_tokens is None else max_tokens
+        temperature = self.temperature if temperature is None else temperature
+        client = self.ai_provider.client
 
         try:
             response = await self._prompt_action(client, prompt)
@@ -183,15 +205,10 @@ class OpenAIRequest:
         except Exception as e:
             print(f"An exception has occured: {e}")
 
-    def prompt(self, prompt: str):
+    async def prompt(self, prompt: str):
         """
         Return a response to the given prompt. Wraps the _prompt method to allow subclasses
         to override it and use validation or other logic.
         """
-        return self._prompt(prompt)
-
-    async def aprompt(self, prompt: str):
-        """
-        Same as prompt, but async.
-        """
-        return await self._aprompt(prompt)
+        out = await self._prompt(prompt)
+        return out

@@ -2,12 +2,14 @@
 
 import os
 from dataclasses import dataclass
-from typing import Protocol
+from typing import Protocol, Union
 
 from dotenv import find_dotenv, load_dotenv
-from openai import AzureOpenAI
+from openai import AsyncAzureOpenAI, AzureOpenAI
 
 load_dotenv(find_dotenv())
+
+BaseAzureClient = Union[AzureOpenAI, AsyncAzureOpenAI]
 
 
 @dataclass
@@ -17,7 +19,7 @@ class GenerativeAIProvider(Protocol):
     establish a connection to the provider."""
 
     @property
-    def client(self) -> AzureOpenAI: ...
+    def client(self) -> BaseAzureClient: ...
 
     def connect(self): ...
 
@@ -48,4 +50,35 @@ class AzureOpenAIProvider:
     def client(self):
         if self._client is None:
             self.connect()
+        return self._client
+
+
+@dataclass
+class AsyncAzureOpenAIProvider:
+    """Asynchronous provider for Azure OpenAI API."""
+
+    _client: AsyncAzureOpenAI | None = None
+
+    async def connect(self):
+        if os.environ["AZURE_OPENAI_API_KEY"] is None:
+            raise ValueError("Azure OpenAI API key is not set")
+
+        if os.environ["AZURE_OPENAI_ENDPOINT"] is None:
+            raise ValueError("Azure OpenAI endpoint is not set")
+
+        if os.environ["AZURE_OPENAI_API_VERSION"] is None:
+            raise ValueError("Azure OpenAI API version is not set")
+
+        client__ = AsyncAzureOpenAI(
+            api_key=os.environ["AZURE_OPENAI_API_KEY"],
+            azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+            api_version=os.environ["AZURE_OPENAI_API_VERSION"],
+        )
+
+        self._client = client__
+
+    @property
+    async def client(self):
+        if self._client is None:
+            await self.connect()
         return self._client

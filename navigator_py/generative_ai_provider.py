@@ -2,14 +2,18 @@
 
 import os
 from dataclasses import dataclass
-from typing import Protocol, Union
+from typing import Protocol, Union, Any
 
 from dotenv import find_dotenv, load_dotenv
 from openai import AsyncAzureOpenAI, AzureOpenAI
+import transformers
 
 load_dotenv(find_dotenv())
 
 BaseAzureClient = Union[AzureOpenAI, AsyncAzureOpenAI]
+
+GenerativeAIClient = Union[AzureOpenAI, AsyncAzureOpenAI, transformers.pipeline]
+GenerativeAICompletion = Union[str, Any]
 
 
 @dataclass
@@ -82,3 +86,50 @@ class AsyncAzureOpenAIProvider:
         if self._client is None:
             await self.connect()
         return self._client
+
+
+@dataclass
+class HuggingfaceProvider:
+    """Provider for transformers implementation of arbitrary huggingface model."""
+
+    _client: Any | None = None
+    model_name: str | None = None
+
+    def __post_init__(self):
+        """Only need to import the model and tokenizer from transformers if using this specific model."""
+        from transformers import PreTrainedTokenizerFast, pipeline, AutoModelForCausalLM
+
+        if self.model_name is None:
+            self.model_name = "microsoft/Phi-3-mini-4k-instruct"
+
+        self.tokenizer = PreTrainedTokenizerFast.from_pretrained(self.model_name)
+        self.model = AutoModelForCausalLM.from_pretrained(self.model_name)
+        self._client = pipeline(
+            "text-generation", model=self.model, tokenizer=self.tokenizer
+        )
+
+    def connect(self):
+        """Does not need to do anything--connection is established in __post_init__."""
+        pass
+
+    @property
+    def client(self):
+        if self._client is None:
+            self.connect()
+        return self._client
+
+
+@dataclass
+class Llama3Provider(HuggingfaceProvider):
+    """Provider for transformers implementation of llama3 model."""
+
+    _client: Any | None = None
+    model_name: str | None = "meta-llama/Meta-Llama-3-8B"
+
+
+@dataclass
+class Phi3MiniProvider(HuggingfaceProvider):
+    """Provider for transformers implementation of phi3-mini model."""
+
+    _client: Any | None = None
+    model_name: str | None = "microsoft/Phi-3-mini-4k-instruct"

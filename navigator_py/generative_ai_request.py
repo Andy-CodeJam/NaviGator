@@ -1,6 +1,7 @@
 import os
 from dataclasses import dataclass
-from typing import Protocol
+from typing import Protocol, List, Dict
+from abc import ABC, abstractmethod
 
 import openai
 from dotenv import find_dotenv, load_dotenv
@@ -10,6 +11,10 @@ from navigator_py.generative_ai_provider import (
     AsyncAzureOpenAIProvider,
     AzureOpenAIProvider,
     GenerativeAIProvider,
+    HuggingfaceProvider,
+    Llama3Provider,
+    GenerativeAIClient,
+    GenerativeAICompletion,
 )
 
 load_dotenv(find_dotenv())
@@ -43,9 +48,7 @@ class GenerativeAIRequest(Protocol):
 
 
 @dataclass
-class OpenAIRequest:
-    """Represents a basic request to the Azure OpenAI API."""
-
+class BaseAIRequest:
     _ai_provider: GenerativeAIProvider | None = None
     _max_tokens: int = int(os.getenv("OPENAI_MAX_TOKENS", 60))
     _temperature: float = float(os.getenv("OPENAI_TEMPERATURE", 0.1))
@@ -62,7 +65,7 @@ class OpenAIRequest:
     @property
     def ai_provider(self) -> GenerativeAIProvider:
         if self._ai_provider is None:
-            self._ai_provider = AzureOpenAIProvider()
+            raise ValueError("AI provider is not set")
         return self._ai_provider
 
     @property
@@ -70,41 +73,45 @@ class OpenAIRequest:
         """Return the maximum number of tokens to generate."""
         return self._max_tokens
 
-    @max_tokens.setter
-    def max_tokens(self, value: int):
-        self._max_tokens = value
-
     @property
     def temperature(self):
         """Return the temperature to use for generating completions."""
         return self._temperature
 
-    @temperature.setter
-    def temperature(self, value: float):
-        self._temperature = value
-
     @property
     def system_prompt(self):
         return self._system_prompt
 
-    @system_prompt.setter
-    def system_prompt(self, value: str):
-        self._system_prompt = value
-
     @property
     def post_user_prompt(self):
         return self._post_user_prompt
-
-    @post_user_prompt.setter
-    def post_user_prompt(self, value: str):
-        self._post_user_prompt = value
 
     @property
     def chat_history(self):
         return self._chat_history
 
     def connect(self):
-        self.ai_provider.client.connect()
+        self.ai_provider.connect()
+
+    def _prompt_action(
+        self, client: GenerativeAIClient, prompt: str
+    ) -> GenerativeAICompletion:
+        """Generate a response to the prompt using the AI provider."""
+        raise NotImplementedError
+
+
+@dataclass
+class OpenAIRequest(BaseAIRequest):
+    """Represents a basic request to the Azure OpenAI API."""
+
+    _ai_provider: GenerativeAIProvider | None = None
+    _max_tokens: int = int(os.getenv("OPENAI_MAX_TOKENS", 60))
+    _temperature: float = float(os.getenv("OPENAI_TEMPERATURE", 0.1))
+    _system_prompt: str = (
+        "You are a helpful AI assistant that helps users with their questions."
+    )
+    _post_user_prompt: str = "Please provide a response to the user's question in a markdown format similar in structure to a blog post."
+    _chat_history: list[dict] | None = None
 
     def _prompt_action(self, client: openai.Client, prompt: str):
         return client.chat.completions.create(
@@ -212,3 +219,102 @@ class AsyncOpenAIRequest(OpenAIRequest):
         """
         out = await self._prompt(prompt)
         return out
+
+
+@dataclass
+class HuggingfaceRequest(BaseAIRequest):
+    """Represents a request to a local Llama3 model using Hugging Face Transformers."""
+
+    _ai_provider: GenerativeAIProvider | None = None
+    _max_length: int = 50
+    _temperature: float = 0.7
+    _system_prompt: str = (
+        "You are a helpful AI assistant that helps users with their questions."
+    )
+    _post_user_prompt: str = (
+        "Please provide a response to the user's question in a concise format."
+    )
+    _chat_history: List[Dict[str, str]] | None = None
+
+    @property
+    def ai_provider(self) -> GenerativeAIProvider:
+        if self._ai_provider is None:
+            from navigator_py.generative_ai_provider import HuggingfaceProvider
+
+            self._ai_provider = HuggingfaceProvider()
+            self._ai_provider.connect()
+        return self._ai_provider
+
+    def _prompt_action(
+        self, client: GenerativeAIClient, prompt: str
+    ) -> GenerativeAICompletion:
+        response = client(
+            prompt, max_length=self._max_length, temperature=self._temperature
+        )
+        return response
+
+    def _prompt(self, prompt: str, max_length: int = None, temperature: float = None):
+        """Same as prompt, but async."""
+        max_length = self._max_length if max_length is None else max_length
+        temperature = self._temperature if temperature is None else temperature
+        client = self.ai_provider.client
+
+        response = self._prompt_action(client, prompt)
+        return response[0]["generated_text"]
+
+    def prompt(self, prompt: str):
+        """
+        Return a response to the given prompt. Wraps the _prompt method to allow subclasses
+        to override it and use validation or other logic.
+        """
+        return self._prompt(prompt)
+
+
+@dataclass
+class Llama3Request(HuggingfaceRequest):
+    """Represents a request to a local Llama3 model using Hugging Face Transformers."""
+
+    _ai_provider: GenerativeAIProvider | None = None
+    _max_length: int = 50
+    _temperature: float = 0.7
+    _system_prompt: str = (
+        "You are a helpful AI assistant that helps users with their questions."
+    )
+    _post_user_prompt: str = (
+        "Please provide a response to the user's question in a concise format."
+    )
+    _chat_history: List[Dict[str, str]] | None = None
+
+    @property
+    def ai_provider(self) -> GenerativeAIProvider:
+        if self._ai_provider is None:
+            from navigator_py.generative_ai_provider import Llama3Provider
+
+            self._ai_provider = Llama3Provider()
+            self._ai_provider.connect()
+        return self._ai_provider
+
+
+@dataclass
+class Phi3MiniRequest(HuggingfaceRequest):
+    """Represents a request to a local Phi3 Mini model using Hugging Face Transformers."""
+
+    _ai_provider: GenerativeAIProvider | None = None
+    _max_length: int = 50
+    _temperature: float = 0.7
+    _system_prompt: str = (
+        "You are a helpful AI assistant that helps users with their questions."
+    )
+    _post_user_prompt: str = (
+        "Please provide a response to the user's question in a concise format."
+    )
+    _chat_history: List[Dict[str, str]] | None = None
+
+    @property
+    def ai_provider(self) -> GenerativeAIProvider:
+        if self._ai_provider is None:
+            from navigator_py.generative_ai_provider import Phi3MiniProvider
+
+            self._ai_provider = Phi3MiniProvider()
+            self._ai_provider.connect()
+        return self._ai_provider

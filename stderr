@@ -1,0 +1,279 @@
+DEBUG uv 0.2.27
+DEBUG Searching for Python interpreter in system path
+DEBUG Found cpython 3.12.4 at `/data/share/code/parenting/.venv/bin/python3` (active virtual environment)
+DEBUG Using Python 3.12.4 environment at [36m.venv/bin/python3[39m
+DEBUG Acquired lock for `.venv`
+DEBUG At least one requirement is not satisfied: llama-cpp-python
+DEBUG Using request timeout of 30s
+DEBUG Solving with installed Python version: 3.12.4
+DEBUG Adding direct dependency: llama-cpp-python*
+DEBUG Found fresh response for: https://pypi.org/simple/llama-cpp-python/
+DEBUG Searching for a compatible version of llama-cpp-python (*)
+DEBUG Selecting: llama-cpp-python==0.2.82 [compatible] (llama_cpp_python-0.2.82.tar.gz)
+DEBUG Acquired lock for `/data/share/etc/.cache/uv/built-wheels-v3/pypi/llama-cpp-python/0.2.82`
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/e0/e5/5be1c1dc3ec38571f7403543deeda16b52957c171b98bb1b5766461aa332/llama_cpp_python-0.2.82.tar.gz
+DEBUG Using cached metadata for: llama-cpp-python==0.2.82
+DEBUG Adding transitive dependency for llama-cpp-python==0.2.82: typing-extensions>=4.5.0
+DEBUG Adding transitive dependency for llama-cpp-python==0.2.82: numpy>=1.20.0
+DEBUG Adding transitive dependency for llama-cpp-python==0.2.82: diskcache>=5.6.1
+DEBUG Adding transitive dependency for llama-cpp-python==0.2.82: jinja2>=2.11.3
+DEBUG Found fresh response for: https://pypi.org/simple/typing-extensions/
+DEBUG Searching for a compatible version of typing-extensions (>=4.5.0)
+DEBUG Found installed version of typing-extensions==4.12.2 that satisfies >=4.5.0
+DEBUG Selecting: typing-extensions==4.12.2 [installed] (installed)
+DEBUG Found installed version of typing-extensions==4.12.2 that satisfies >=4.5.0
+DEBUG Found fresh response for: https://pypi.org/simple/diskcache/
+DEBUG Found fresh response for: https://pypi.org/simple/jinja2/
+DEBUG Found installed version of jinja2==3.1.4 that satisfies >=2.11.3
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/3f/27/4570e78fc0bf5ea0ca45eb1de3818a23787af9b390c0b0a0033a1b8236f9/diskcache-5.6.3-py3-none-any.whl.metadata
+DEBUG Found fresh response for: https://pypi.org/simple/numpy/
+DEBUG Searching for a compatible version of numpy (>=1.20.0)
+DEBUG Selecting: numpy==2.0.1 [compatible] (numpy-2.0.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl)
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/2c/f3/61eeef119beb37decb58e7cb29940f19a1464b8608f2cab8a8616aba75fd/numpy-2.0.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+DEBUG Searching for a compatible version of diskcache (>=5.6.1)
+DEBUG Selecting: diskcache==5.6.3 [compatible] (diskcache-5.6.3-py3-none-any.whl)
+DEBUG Searching for a compatible version of jinja2 (>=2.11.3)
+DEBUG Found installed version of jinja2==3.1.4 that satisfies >=2.11.3
+DEBUG Selecting: jinja2==3.1.4 [installed] (installed)
+DEBUG Adding transitive dependency for jinja2==3.1.4: markupsafe>=2.0
+DEBUG Found fresh response for: https://pypi.org/simple/markupsafe/
+DEBUG Searching for a compatible version of markupsafe (>=2.0)
+DEBUG Found installed version of markupsafe==2.1.5 that satisfies >=2.0
+DEBUG Selecting: markupsafe==2.1.5 [installed] (installed)
+DEBUG Found installed version of markupsafe==2.1.5 that satisfies >=2.0
+DEBUG Tried 6 versions: diskcache 1, jinja2 1, llama-cpp-python 1, markupsafe 1, numpy 1, typing-extensions 1
+DEBUG Split specific environment resolution took 0.008s
+Resolved 6 packages in 8ms
+DEBUG Requirement already cached: diskcache==5.6.3
+DEBUG Requirement already installed: jinja2==3.1.4
+DEBUG Identified uncached requirement: llama-cpp-python==0.2.82
+DEBUG Requirement already installed: markupsafe==2.1.5
+DEBUG Requirement already cached: numpy==2.0.1
+DEBUG Requirement already installed: typing-extensions==4.12.2
+DEBUG Unnecessary package: babel==2.15.0
+DEBUG Unnecessary package: ebooklib==0.18
+DEBUG Unnecessary package: pyyaml==6.0.1
+DEBUG Unnecessary package: qtpy==2.4.1
+DEBUG Unnecessary package: send2trash==1.8.3
+DEBUG Unnecessary package: anyio==4.4.0
+DEBUG Unnecessary package: argon2-cffi==23.1.0
+DEBUG Unnecessary package: argon2-cffi-bindings==21.2.0
+DEBUG Unnecessary package: arrow==1.3.0
+DEBUG Unnecessary package: asttokens==2.4.1
+DEBUG Unnecessary package: async-lru==2.0.4
+DEBUG Unnecessary package: attrs==23.2.0
+DEBUG Unnecessary package: beautifulsoup4==4.12.3
+DEBUG Unnecessary package: bleach==6.1.0
+DEBUG Unnecessary package: bs4==0.0.2
+DEBUG Unnecessary package: cattrs==23.2.3
+DEBUG Unnecessary package: certifi==2024.7.4
+DEBUG Unnecessary package: cffi==1.16.0
+DEBUG Unnecessary package: charset-normalizer==3.3.2
+DEBUG Unnecessary package: comm==0.2.2
+DEBUG Unnecessary package: debugpy==1.8.2
+DEBUG Unnecessary package: decorator==5.1.1
+DEBUG Unnecessary package: defusedxml==0.7.1
+DEBUG Unnecessary package: executing==2.0.1
+DEBUG Unnecessary package: fastjsonschema==2.20.0
+DEBUG Unnecessary package: fqdn==1.5.1
+DEBUG Unnecessary package: h11==0.14.0
+DEBUG Unnecessary package: httpcore==1.0.5
+DEBUG Unnecessary package: httpx==0.27.0
+DEBUG Unnecessary package: idna==3.7
+DEBUG Unnecessary package: ipykernel==6.29.5
+DEBUG Unnecessary package: ipython==8.26.0
+DEBUG Unnecessary package: ipywidgets==8.1.3
+DEBUG Unnecessary package: isoduration==20.11.0
+DEBUG Unnecessary package: jedi==0.19.1
+DEBUG Unnecessary package: json5==0.9.25
+DEBUG Unnecessary package: jsonpointer==3.0.0
+DEBUG Unnecessary package: jsonschema==4.23.0
+DEBUG Unnecessary package: jsonschema-specifications==2023.12.1
+DEBUG Unnecessary package: jupyter==1.0.0
+DEBUG Unnecessary package: jupyter-client==8.6.2
+DEBUG Unnecessary package: jupyter-console==6.6.3
+DEBUG Unnecessary package: jupyter-core==5.7.2
+DEBUG Unnecessary package: jupyter-events==0.10.0
+DEBUG Unnecessary package: jupyter-lsp==2.2.5
+DEBUG Unnecessary package: jupyter-server==2.14.2
+DEBUG Unnecessary package: jupyter-server-terminals==0.5.3
+DEBUG Unnecessary package: jupyterlab==4.2.4
+DEBUG Unnecessary package: jupyterlab-pygments==0.3.0
+DEBUG Unnecessary package: jupyterlab-server==2.27.3
+DEBUG Unnecessary package: jupyterlab-widgets==3.0.11
+DEBUG Unnecessary package: lsprotocol==2023.0.1
+DEBUG Unnecessary package: lxml==5.2.2
+DEBUG Unnecessary package: matplotlib-inline==0.1.7
+DEBUG Unnecessary package: mistune==3.0.2
+DEBUG Unnecessary package: nbclient==0.10.0
+DEBUG Unnecessary package: nbconvert==7.16.4
+DEBUG Unnecessary package: nbformat==5.10.4
+DEBUG Unnecessary package: nest-asyncio==1.6.0
+DEBUG Unnecessary package: notebook==7.2.1
+DEBUG Unnecessary package: notebook-shim==0.2.4
+DEBUG Unnecessary package: overrides==7.7.0
+DEBUG Unnecessary package: packaging==24.1
+DEBUG Unnecessary package: pandocfilters==1.5.1
+DEBUG Unnecessary package: parenting==0.1.0 (from file:///data/share/code/parenting)
+DEBUG Unnecessary package: parso==0.8.4
+DEBUG Unnecessary package: pexpect==4.9.0
+DEBUG Unnecessary package: platformdirs==4.2.2
+DEBUG Unnecessary package: prometheus-client==0.20.0
+DEBUG Unnecessary package: prompt-toolkit==3.0.47
+DEBUG Unnecessary package: psutil==6.0.0
+DEBUG Unnecessary package: ptyprocess==0.7.0
+DEBUG Unnecessary package: pure-eval==0.2.3
+DEBUG Unnecessary package: pycparser==2.22
+DEBUG Unnecessary package: pygls==1.3.1
+DEBUG Unnecessary package: pygments==2.18.0
+DEBUG Unnecessary package: python-dateutil==2.9.0.post0
+DEBUG Unnecessary package: python-json-logger==2.0.7
+DEBUG Unnecessary package: pyzmq==26.0.3
+DEBUG Unnecessary package: qtconsole==5.5.2
+DEBUG Unnecessary package: referencing==0.35.1
+DEBUG Unnecessary package: requests==2.32.3
+DEBUG Unnecessary package: rfc3339-validator==0.1.4
+DEBUG Unnecessary package: rfc3986-validator==0.1.1
+DEBUG Unnecessary package: rpds-py==0.19.0
+DEBUG Unnecessary package: ruff==0.5.4
+DEBUG Unnecessary package: ruff-lsp==0.0.54
+DEBUG Unnecessary package: setuptools==71.1.0
+DEBUG Unnecessary package: six==1.16.0
+DEBUG Unnecessary package: sniffio==1.3.1
+DEBUG Unnecessary package: soupsieve==2.5
+DEBUG Unnecessary package: stack-data==0.6.3
+DEBUG Unnecessary package: terminado==0.18.1
+DEBUG Unnecessary package: tinycss2==1.3.0
+DEBUG Unnecessary package: tornado==6.4.1
+DEBUG Unnecessary package: traitlets==5.14.3
+DEBUG Unnecessary package: types-python-dateutil==2.9.0.20240316
+DEBUG Unnecessary package: uri-template==1.3.0
+DEBUG Unnecessary package: urllib3==2.2.2
+DEBUG Unnecessary package: uv==0.2.27
+DEBUG Unnecessary package: wcwidth==0.2.13
+DEBUG Unnecessary package: webcolors==24.6.0
+DEBUG Unnecessary package: webencodings==0.5.1
+DEBUG Unnecessary package: websocket-client==1.8.0
+DEBUG Unnecessary package: wheel==0.43.0
+DEBUG Unnecessary package: widgetsnbextension==4.0.11
+DEBUG Acquired lock for `/data/share/etc/.cache/uv/built-wheels-v3/pypi/llama-cpp-python/0.2.82`
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/e0/e5/5be1c1dc3ec38571f7403543deeda16b52957c171b98bb1b5766461aa332/llama_cpp_python-0.2.82.tar.gz
+DEBUG Building: llama-cpp-python==0.2.82
+INFO Ignoring empty directory
+DEBUG Solving with installed Python version: 3.12.4
+DEBUG Adding direct dependency: scikit-build-core>=0.9.2
+DEBUG Adding direct dependency: scikit-build-core[pyproject]>=0.9.2
+DEBUG Found fresh response for: https://pypi.org/simple/scikit-build-core/
+DEBUG Searching for a compatible version of scikit-build-core[pyproject] (>=0.9.2)
+DEBUG Selecting: scikit-build-core==0.9.8 [compatible] (scikit_build_core-0.9.8-py3-none-any.whl)
+DEBUG Adding transitive dependency for scikit-build-core==0.9.8: scikit-build-core==0.9.8
+DEBUG Adding transitive dependency for scikit-build-core==0.9.8: scikit-build-core[pyproject]==0.9.8
+DEBUG Searching for a compatible version of scikit-build-core (==0.9.8)
+DEBUG Selecting: scikit-build-core==0.9.8 [compatible] (scikit_build_core-0.9.8-py3-none-any.whl)
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/0e/b7/62ede14d44d448bbb7424d5992e394d6980824312de05c9b4816a41602f0/scikit_build_core-0.9.8-py3-none-any.whl.metadata
+DEBUG Adding transitive dependency for scikit-build-core==0.9.8: packaging>=21.3
+DEBUG Adding transitive dependency for scikit-build-core==0.9.8: pathspec>=0.10.1
+DEBUG Searching for a compatible version of scikit-build-core[pyproject] (==0.9.8)
+DEBUG Selecting: scikit-build-core==0.9.8 [compatible] (scikit_build_core-0.9.8-py3-none-any.whl)
+DEBUG Found fresh response for: https://pypi.org/simple/packaging/
+DEBUG Found fresh response for: https://pypi.org/simple/pathspec/
+DEBUG Searching for a compatible version of packaging (>=21.3)
+DEBUG Selecting: packaging==24.1 [compatible] (packaging-24.1-py3-none-any.whl)
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/cc/20/ff623b09d963f88bfde16306a54e12ee5ea43e9b597108672ff3a408aad6/pathspec-0.12.1-py3-none-any.whl.metadata
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/08/aa/cc0199a5f0ad350994d660967a8efb233fe0416e4639146c089643407ce6/packaging-24.1-py3-none-any.whl.metadata
+DEBUG Searching for a compatible version of pathspec (>=0.10.1)
+DEBUG Selecting: pathspec==0.12.1 [compatible] (pathspec-0.12.1-py3-none-any.whl)
+DEBUG Tried 3 versions: packaging 1, pathspec 1, scikit-build-core 1
+DEBUG Split specific environment resolution took 0.002s
+DEBUG Installing in packaging==24.1, pathspec==0.12.1, scikit-build-core==0.9.8 in /data/share/etc/.cache/uv/builds-v0/.tmpAIWdV6
+DEBUG Requirement already cached: packaging==24.1
+DEBUG Requirement already cached: pathspec==0.12.1
+DEBUG Requirement already cached: scikit-build-core==0.9.8
+DEBUG Installing build requirements: packaging==24.1, pathspec==0.12.1, scikit-build-core==0.9.8
+DEBUG Calling `scikit_build_core.build.get_requires_for_build_wheel()`
+DEBUG Installing extra requirements for build backend
+DEBUG Solving with installed Python version: 3.12.4
+DEBUG Adding direct dependency: scikit-build-core>=0.9.2
+DEBUG Adding direct dependency: scikit-build-core[pyproject]>=0.9.2
+DEBUG Adding direct dependency: ninja>=1.5
+DEBUG Searching for a compatible version of scikit-build-core[pyproject] (>=0.9.2)
+DEBUG Selecting: scikit-build-core==0.9.8 [compatible] (scikit_build_core-0.9.8-py3-none-any.whl)
+DEBUG Adding transitive dependency for scikit-build-core==0.9.8: scikit-build-core==0.9.8
+DEBUG Adding transitive dependency for scikit-build-core==0.9.8: scikit-build-core[pyproject]==0.9.8
+DEBUG Searching for a compatible version of scikit-build-core (==0.9.8)
+DEBUG Selecting: scikit-build-core==0.9.8 [compatible] (scikit_build_core-0.9.8-py3-none-any.whl)
+DEBUG Adding transitive dependency for scikit-build-core==0.9.8: packaging>=21.3
+DEBUG Adding transitive dependency for scikit-build-core==0.9.8: pathspec>=0.10.1
+DEBUG Searching for a compatible version of scikit-build-core[pyproject] (==0.9.8)
+DEBUG Selecting: scikit-build-core==0.9.8 [compatible] (scikit_build_core-0.9.8-py3-none-any.whl)
+DEBUG Found fresh response for: https://pypi.org/simple/ninja/
+DEBUG Searching for a compatible version of ninja (>=1.5)
+DEBUG Selecting: ninja==1.11.1.1 [compatible] (ninja-1.11.1.1-py2.py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.whl)
+DEBUG Found fresh response for: https://files.pythonhosted.org/packages/6d/92/8d7aebd4430ab5ff65df2bfee6d5745f95c004284db2d8ca76dcbfd9de47/ninja-1.11.1.1-py2.py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.whl.metadata
+DEBUG Searching for a compatible version of packaging (>=21.3)
+DEBUG Selecting: packaging==24.1 [compatible] (packaging-24.1-py3-none-any.whl)
+DEBUG Searching for a compatible version of pathspec (>=0.10.1)
+DEBUG Selecting: pathspec==0.12.1 [compatible] (pathspec-0.12.1-py3-none-any.whl)
+DEBUG Tried 4 versions: ninja 1, packaging 1, pathspec 1, scikit-build-core 1
+DEBUG Split specific environment resolution took 0.001s
+DEBUG Installing in ninja==1.11.1.1, packaging==24.1, pathspec==0.12.1, scikit-build-core==0.9.8 in /data/share/etc/.cache/uv/builds-v0/.tmpAIWdV6
+DEBUG Requirement already cached: ninja==1.11.1.1
+DEBUG Requirement already installed: packaging==24.1
+DEBUG Requirement already installed: pathspec==0.12.1
+DEBUG Requirement already installed: scikit-build-core==0.9.8
+DEBUG Installing build requirement: ninja==1.11.1.1
+DEBUG Calling `scikit_build_core.build.build_wheel("/data/share/etc/.cache/uv/built-wheels-v3/pypi/llama-cpp-python/0.2.82/Y9N05a2qO5Ugb-K3mDgDB/.tmpnnKRrB", {}, None)`
+error: Failed to prepare distributions
+  Caused by: Failed to fetch wheel: llama-cpp-python==0.2.82
+  Caused by: Failed to build: `llama-cpp-python==0.2.82`
+  Caused by: Build backend failed to build wheel through `build_wheel()` with exit status: 1
+--- stdout:
+*** scikit-build-core 0.9.8 using CMake 3.22.1 (wheel)
+*** Configuring CMake...
+loading initial cache file /tmp/tmp_uk1rt3f/build/CMakeInit.txt
+-- The C compiler identification is Clang 14.0.0
+-- The CXX compiler identification is Clang 14.0.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/clang - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - failed
+-- Check for working CXX compiler: /usr/bin/clang++
+-- Check for working CXX compiler: /usr/bin/clang++ - broken
+-- Configuring incomplete, errors occurred!
+See also "/tmp/tmp_uk1rt3f/build/CMakeFiles/CMakeOutput.log".
+See also "/tmp/tmp_uk1rt3f/build/CMakeFiles/CMakeError.log".
+--- stderr:
+CMake Error at /usr/share/cmake-3.22/Modules/CMakeTestCXXCompiler.cmake:62 (message):
+  The C++ compiler
+
+    "/usr/bin/clang++"
+
+  is not able to compile a simple test program.
+
+  It fails with the following output:
+
+    Change Dir: /tmp/tmp_uk1rt3f/build/CMakeFiles/CMakeTmp
+    
+    Run Build Command(s):/data/share/etc/.cache/uv/builds-v0/.tmpAIWdV6/lib/python3.12/site-packages/ninja/data/bin/ninja cmTC_4f4d5 && [1/2] Building CXX object CMakeFiles/cmTC_4f4d5.dir/testCXXCompiler.cxx.o
+    [2/2] Linking CXX executable cmTC_4f4d5
+    FAILED: cmTC_4f4d5 
+    : && /usr/bin/clang++  -pthread   CMakeFiles/cmTC_4f4d5.dir/testCXXCompiler.cxx.o -o cmTC_4f4d5   && :
+    /usr/bin/ld: cannot find -lstdc++: No such file or directory
+    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+    ninja: build stopped: subcommand failed.
+    
+    
+
+  
+
+  CMake will not be able to correctly generate this project.
+Call Stack (most recent call first):
+  CMakeLists.txt:3 (project)
+
+
+
+*** CMake configuration failed
+---

@@ -1,6 +1,7 @@
 # streamlit_app.py
-import sys
 import os
+import sys
+
 import streamlit as st
 
 # Add the project root to the Python path
@@ -8,13 +9,13 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(project_root)
 
 from navigator_py.flow import (  # noqa: E402
-    rephrase_prompt,
-    search_for_documents,
-    evaluate_articles,
-    generate_llm_answer,
-    evaluate_llm_answer,
     ensure_asking_about_spira,
     ensure_single_topic_in_prompt,
+    evaluate_articles,
+    evaluate_llm_answer,
+    generate_llm_answer,
+    rephrase_prompt,
+    search_for_documents,
 )
 
 RETURN_N_DOCS = 3

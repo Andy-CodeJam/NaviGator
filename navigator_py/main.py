@@ -13,7 +13,7 @@ from navigator_py.flow import (
 
 load_dotenv(find_dotenv())
 
-RETURN_N_DOCS = 7  # Number of documents to return from each source
+RETURN_N_DOCS = 3  # Number of documents to return from each source
 
 error_code_map = {
     1: "No prompt was provided, or the prompt was not able to be parsed from the command line.",

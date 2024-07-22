@@ -52,9 +52,9 @@ class EvaluateWhetherOrNotAnArticleIsLikelyToBeUseful(OpenAIRequest):
     def __post_init__(self):
         if self.article is None:
             raise ValueError("An article must be provided.")
-
-    def connect(self):
-        self._ai_provider = AzureOpenAIProvider()
+        if self._ai_provider is None:
+            self._ai_provider = AzureOpenAIProvider()
+            self._ai_provider.connect()
 
     def _updated_prompt(self, prompt: str) -> str:
         return f"""

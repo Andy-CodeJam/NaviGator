@@ -1,7 +1,8 @@
 import os
+
+# from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Protocol, List, Dict
-from abc import ABC, abstractmethod
+from typing import Dict, List, Protocol
 
 import openai
 from dotenv import find_dotenv, load_dotenv
@@ -10,11 +11,9 @@ from navigator_py.config import config
 from navigator_py.generative_ai_provider import (
     AsyncAzureOpenAIProvider,
     AzureOpenAIProvider,
-    GenerativeAIProvider,
-    HuggingfaceProvider,
-    Llama3Provider,
     GenerativeAIClient,
     GenerativeAICompletion,
+    GenerativeAIProvider,
 )
 
 load_dotenv(find_dotenv())
@@ -112,6 +111,13 @@ class OpenAIRequest(BaseAIRequest):
     )
     _post_user_prompt: str = "Please provide a response to the user's question in a markdown format similar in structure to a blog post."
     _chat_history: list[dict] | None = None
+
+    def __post_init__(self):
+        if self._chat_history is None:
+            self._chat_history = []
+        if self._ai_provider is None:
+            self._ai_provider = AzureOpenAIProvider()
+            self._ai_provider.connect()
 
     def _prompt_action(self, client: openai.Client, prompt: str):
         return client.chat.completions.create(
@@ -221,100 +227,100 @@ class AsyncOpenAIRequest(OpenAIRequest):
         return out
 
 
-@dataclass
-class HuggingfaceRequest(BaseAIRequest):
-    """Represents a request to a local Llama3 model using Hugging Face Transformers."""
+# @dataclass
+# class HuggingfaceRequest(BaseAIRequest):
+#     """Represents a request to a local Llama3 model using Hugging Face Transformers."""
 
-    _ai_provider: GenerativeAIProvider | None = None
-    _max_length: int = 50
-    _temperature: float = 0.7
-    _system_prompt: str = (
-        "You are a helpful AI assistant that helps users with their questions."
-    )
-    _post_user_prompt: str = (
-        "Please provide a response to the user's question in a concise format."
-    )
-    _chat_history: List[Dict[str, str]] | None = None
+#     _ai_provider: GenerativeAIProvider | None = None
+#     _max_length: int = 50
+#     _temperature: float = 0.7
+#     _system_prompt: str = (
+#         "You are a helpful AI assistant that helps users with their questions."
+#     )
+#     _post_user_prompt: str = (
+#         "Please provide a response to the user's question in a concise format."
+#     )
+#     _chat_history: List[Dict[str, str]] | None = None
 
-    @property
-    def ai_provider(self) -> GenerativeAIProvider:
-        if self._ai_provider is None:
-            from navigator_py.generative_ai_provider import HuggingfaceProvider
+#     @property
+#     def ai_provider(self) -> GenerativeAIProvider:
+#         if self._ai_provider is None:
+#             from navigator_py.generative_ai_provider import HuggingfaceProvider
 
-            self._ai_provider = HuggingfaceProvider()
-            self._ai_provider.connect()
-        return self._ai_provider
+#             self._ai_provider = HuggingfaceProvider()
+#             self._ai_provider.connect()
+#         return self._ai_provider
 
-    def _prompt_action(
-        self, client: GenerativeAIClient, prompt: str
-    ) -> GenerativeAICompletion:
-        response = client(
-            prompt, max_length=self._max_length, temperature=self._temperature
-        )
-        return response
+#     def _prompt_action(
+#         self, client: GenerativeAIClient, prompt: str
+#     ) -> GenerativeAICompletion:
+#         response = client(
+#             prompt, max_length=self._max_length, temperature=self._temperature
+#         )
+#         return response
 
-    def _prompt(self, prompt: str, max_length: int = None, temperature: float = None):
-        """Same as prompt, but async."""
-        max_length = self._max_length if max_length is None else max_length
-        temperature = self._temperature if temperature is None else temperature
-        client = self.ai_provider.client
+#     def _prompt(self, prompt: str, max_length: int = None, temperature: float = None):
+#         """Same as prompt, but async."""
+#         max_length = self._max_length if max_length is None else max_length
+#         temperature = self._temperature if temperature is None else temperature
+#         client = self.ai_provider.client
 
-        response = self._prompt_action(client, prompt)
-        return response[0]["generated_text"]
+#         response = self._prompt_action(client, prompt)
+#         return response[0]["generated_text"]
 
-    def prompt(self, prompt: str):
-        """
-        Return a response to the given prompt. Wraps the _prompt method to allow subclasses
-        to override it and use validation or other logic.
-        """
-        return self._prompt(prompt)
-
-
-@dataclass
-class Llama3Request(HuggingfaceRequest):
-    """Represents a request to a local Llama3 model using Hugging Face Transformers."""
-
-    _ai_provider: GenerativeAIProvider | None = None
-    _max_length: int = 50
-    _temperature: float = 0.7
-    _system_prompt: str = (
-        "You are a helpful AI assistant that helps users with their questions."
-    )
-    _post_user_prompt: str = (
-        "Please provide a response to the user's question in a concise format."
-    )
-    _chat_history: List[Dict[str, str]] | None = None
-
-    @property
-    def ai_provider(self) -> GenerativeAIProvider:
-        if self._ai_provider is None:
-            from navigator_py.generative_ai_provider import Llama3Provider
-
-            self._ai_provider = Llama3Provider()
-            self._ai_provider.connect()
-        return self._ai_provider
+#     def prompt(self, prompt: str):
+#         """
+#         Return a response to the given prompt. Wraps the _prompt method to allow subclasses
+#         to override it and use validation or other logic.
+#         """
+#         return self._prompt(prompt)
 
 
-@dataclass
-class Phi3MiniRequest(HuggingfaceRequest):
-    """Represents a request to a local Phi3 Mini model using Hugging Face Transformers."""
+# @dataclass
+# class Llama3Request(HuggingfaceRequest):
+#     """Represents a request to a local Llama3 model using Hugging Face Transformers."""
 
-    _ai_provider: GenerativeAIProvider | None = None
-    _max_length: int = 50
-    _temperature: float = 0.7
-    _system_prompt: str = (
-        "You are a helpful AI assistant that helps users with their questions."
-    )
-    _post_user_prompt: str = (
-        "Please provide a response to the user's question in a concise format."
-    )
-    _chat_history: List[Dict[str, str]] | None = None
+#     _ai_provider: GenerativeAIProvider | None = None
+#     _max_length: int = 50
+#     _temperature: float = 0.7
+#     _system_prompt: str = (
+#         "You are a helpful AI assistant that helps users with their questions."
+#     )
+#     _post_user_prompt: str = (
+#         "Please provide a response to the user's question in a concise format."
+#     )
+#     _chat_history: List[Dict[str, str]] | None = None
 
-    @property
-    def ai_provider(self) -> GenerativeAIProvider:
-        if self._ai_provider is None:
-            from navigator_py.generative_ai_provider import Phi3MiniProvider
+#     @property
+#     def ai_provider(self) -> GenerativeAIProvider:
+#         if self._ai_provider is None:
+#             from navigator_py.generative_ai_provider import Llama3Provider
 
-            self._ai_provider = Phi3MiniProvider()
-            self._ai_provider.connect()
-        return self._ai_provider
+#             self._ai_provider = Llama3Provider()
+#             self._ai_provider.connect()
+#         return self._ai_provider
+
+
+# @dataclass
+# class Phi3MiniRequest(HuggingfaceRequest):
+#     """Represents a request to a local Phi3 Mini model using Hugging Face Transformers."""
+
+#     _ai_provider: GenerativeAIProvider | None = None
+#     _max_length: int = 50
+#     _temperature: float = 0.7
+#     _system_prompt: str = (
+#         "You are a helpful AI assistant that helps users with their questions."
+#     )
+#     _post_user_prompt: str = (
+#         "Please provide a response to the user's question in a concise format."
+#     )
+#     _chat_history: List[Dict[str, str]] | None = None
+
+#     @property
+#     def ai_provider(self) -> GenerativeAIProvider:
+#         if self._ai_provider is None:
+#             from navigator_py.generative_ai_provider import Phi3MiniProvider
+
+#             self._ai_provider = Phi3MiniProvider()
+#             self._ai_provider.connect()
+#         return self._ai_provider

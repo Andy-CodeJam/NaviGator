@@ -43,10 +43,14 @@ class UseArticlesToGenerateAnswer(OpenAIRequest):
     _system_prompt: str = SYSTEM_PROMPT
     _post_user_prompt: str = POST_USER_PROMPT
     articles: list[dict] | None = None
+    _ai_provider: AzureOpenAIProvider | None = None
 
     def __post_init__(self):
         if self.articles is None:
             raise ValueError("Articles must be provided.")
+        if self._ai_provider is None:
+            self._ai_provider = AzureOpenAIProvider()
+            self._ai_provider.connect()
 
     def connect(self):
         self._ai_provider = AzureOpenAIProvider()

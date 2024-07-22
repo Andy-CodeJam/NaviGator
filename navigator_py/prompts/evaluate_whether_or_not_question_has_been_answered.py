@@ -50,6 +50,9 @@ class EvaluateWhetherOrNotQuestionHasBeenAnswered(OpenAIRequest):
     def __post_init__(self):
         if self.draft_response is None:
             raise ValueError("Draft response must be provided.")
+        if self._ai_provider is None:
+            self._ai_provider = AzureOpenAIProvider()
+            self._ai_provider.connect()
 
     def connect(self):
         self._ai_provider = AzureOpenAIProvider()

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from navigator_py.generative_ai_provider import AzureOpenAIProvider
-from navigator_py.generative_ai_request import OpenAIRequest
+from navigator_py.generative_ai_request import AzureOpenAIRequest
 from navigator_py.models import SingleMultipleNoResponse
 
 SYSTEM_PROMPT = """The following is from the "Introduction to Spira" section of the Spira documentation website:
@@ -44,7 +44,7 @@ Keep in mind:
 
 
 @dataclass
-class HasSingleMultipleOrNoQuestions(OpenAIRequest):
+class HasSingleMultipleOrNoQuestions(AzureOpenAIRequest):
     """Represents a request to the Azure OpenAI API to determine if there is a single topic in the prompt."""
 
     _system_prompt: str = SYSTEM_PROMPT

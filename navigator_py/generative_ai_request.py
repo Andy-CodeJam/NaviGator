@@ -2,7 +2,7 @@ import os
 
 # from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Dict, List, Protocol
+from typing import Protocol
 
 import openai
 from dotenv import find_dotenv, load_dotenv
